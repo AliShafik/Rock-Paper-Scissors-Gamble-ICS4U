@@ -1,369 +1,254 @@
+/*
+Rock Paper Scissors Gamble asks the user for player names, then asks for the amount of money each player is putting in. The program then calculates the total money and assigns a random number to each name which decides who wins or ties the rock, paper,scissors game. The winner is then displayed with the total money they won. The user gets the option to play again or quit after.
+*/
+
+//Imports for all features in code
+
+//Imports for java swing
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import java.awt.Font;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+
+//Import for scanner for user input
+import java.util.Scanner;
 
 class Main {
 
-  public static class CLayout{
+  //Class for layout to manage panels and frame
+  public static class CLayout {
+    
+    //Class to retrieve main frame, main panel and card layout 
+    public class infoToRetreive {
+      private JPanel panelCont = new JPanel(); //main panel
+      private CardLayout cl = new CardLayout(); //card layout to manage all panels
+      private JFrame startFrame = new JFrame("Rock Paper Scissors Gamble"); //main frame 
 
-    JFrame startFrame = new JFrame("Rock Paper Scissors Gamble");
-
-    public class infoToRetreive{
-      private JPanel panelCont = new JPanel();
-      private CardLayout cl = new CardLayout();
-
-      public CardLayout getcl(){
+      //Getters for main frame, main panel and card layout
+      public CardLayout getcl() {
         return cl;
       }
 
-      public JPanel getPanelCont(){
+      public JPanel getPanelCont() {
         return panelCont;
+      }
+
+      public JFrame getStartingFrame() {
+        return startFrame;
       }
     }
 
-    public CLayout(){
+    public CLayout() {
 
+      //Scanner class for user input
+      Scanner input = new Scanner(System.in);
+
+      //Retrieving info from class above to re-use
       infoToRetreive infoRetreival = new infoToRetreive();
-
       JPanel panelcont = infoRetreival.getPanelCont();
       CardLayout cl = infoRetreival.getcl();
+      JFrame startFrame = infoRetreival.getStartingFrame();
       
+      //Setting main panel to follow the card layout
       panelcont.setLayout(cl);
 
-      //STARTING PANEL
+      // FRAME TO HOLD ALL PANELS
 
-      JPanel startingPanel = new JPanel();
-      JButton startGameButton = new JButton("Start Game");
-      JButton instructionsButton = new JButton("Instructions");
-      startingPanel.setLayout(null);
-
-      JLabel gameTitle1 = new JLabel("Rock Paper Scissors"); 
-      gameTitle1.setFont(new Font("Verdana", Font.PLAIN, 35));
-      gameTitle1.setBounds(50,70, 400, 50); 
-      startingPanel.add(gameTitle1);
-
-      JLabel gameTitle2 = new JLabel("Gamble"); 
-      gameTitle2.setFont(new Font("Verdana", Font.PLAIN, 35));
-      gameTitle2.setBounds(155,120, 400, 50); 
-      startingPanel.add(gameTitle2);
-      
-      startGameButton.setBounds(50,200,150,25);
-      startGameButton.setFocusable(false);
-      startingPanel.add(startGameButton);
-
-      instructionsButton.setBounds(250,200,150,25);
-      instructionsButton.setFocusable(false);
-      startingPanel.add(instructionsButton);
-
-      startGameButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          cl.show(infoRetreival.getPanelCont(), "3");
-        }
-      });
-
-      instructionsButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          cl.show(infoRetreival.getPanelCont(), "2");
-        }
-      });
-
-      //INSTRUCTIONS PANEL
-
-      JPanel infoPanel = new JPanel();
-      JButton backButton = new JButton("Back");
-      infoPanel.setLayout(null);
-
-      JLabel infoTitle = new JLabel("Instructions"); 
-      infoTitle.setFont(new Font("Verdana", Font.PLAIN, 35));
-      infoTitle.setBounds(120,-170,300,400); 
-      infoPanel.add(infoTitle);
-
-      JLabel howToPlayLabel = new JLabel("How to Play:"); 
-      howToPlayLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
-      howToPlayLabel.setBounds(20,40,400,50); 
-      infoPanel.add(howToPlayLabel);
-
-      JLabel firstInfo = new JLabel("1. Enter player names."); 
-      firstInfo.setFont(new Font("Verdana", Font.PLAIN, 15));
-      firstInfo.setBounds(20,80,400,25); 
-      infoPanel.add(firstInfo);
-
-      JLabel secondInfo = new JLabel("<html>2. Enter amount of money for each player<br/>without the “$” sign.</html>"); 
-      secondInfo.setFont(new Font("Verdana", Font.PLAIN, 15));
-      secondInfo.setBounds(20,105,400,35); 
-      infoPanel.add(secondInfo);
-
-      JLabel thridInfo = new JLabel("3. Wait for game results."); 
-      thridInfo.setFont(new Font("Verdana", Font.PLAIN, 15));
-      thridInfo.setBounds(20,140,400,25); 
-      infoPanel.add(thridInfo);
-
-      JLabel fourthInfo = new JLabel("<html>4. Click replay if you would like to play again or click<br/>quit to close the program.</html>");
-      fourthInfo.setFont(new Font("Verdana", Font.PLAIN, 15));
-      fourthInfo.setBounds(20,165,400,35);
-      infoPanel.add(fourthInfo);
-
-      backButton.setBounds(150,250,150,25);
-      backButton.setFocusable(false);
-      infoPanel.add(backButton);
-
-      backButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          cl.show(infoRetreival.getPanelCont(), "1");
-        }
-      });
-      
-      //NAMES PANEL
-
-      JPanel namesPanel = new JPanel();
-      namesPanel.setLayout(null);
-
-      JLabel namesInfo = new JLabel("<html>Please enter the names of each<br/>player in the textfields and click<br/>enter for each and then click continue:</html>");
-      namesInfo.setFont(new Font("Verdana", Font.PLAIN, 20));
-      namesInfo.setBounds(30,15,400,100);
-      namesPanel.add(namesInfo);
-
-      JLabel player1Label = new JLabel("Player 1:");
-      player1Label.setFont(new Font("Verdana", Font.PLAIN, 35));
-      player1Label.setBounds(50,105,400,100);
-      namesPanel.add(player1Label);
-
-      JTextField name1Field = new JTextField(45);
-      name1Field.setBounds(250,125,150,60);
-      name1Field.setFont(new Font("Verdana", Font.PLAIN, 45));
-      namesPanel.add(name1Field);
-
-      JLabel player2Label = new JLabel("Player 2:");
-      player2Label.setFont(new Font("Verdana", Font.PLAIN,35));
-      player2Label.setBounds(50,170,400,100);
-      namesPanel.add(player2Label);
-
-      JTextField name2Field = new JTextField(45);
-      name2Field.setBounds(250,190,150,60);
-      name2Field.setFont(new Font("Verdana", Font.PLAIN, 45));
-      namesPanel.add(name2Field);
-
-      JButton continueButton1 = new JButton("Continue");
-      continueButton1.setBounds(150,260,150,25);
-      continueButton1.setFocusable(false);
-      namesPanel.add(continueButton1);
-      continueButton1.setEnabled (false);
-
-      continueButton1.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          cl.show(infoRetreival.getPanelCont(), "4");
-        }
-      });
-
-      class Name1Field implements ActionListener{
-        String name1;
-        boolean nextAccess1;
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          name1 = name1Field.getText();
-          name1Field.setBackground(Color.GREEN);
-          nextAccess1 = true;
-        }
-        public String getName1(){
-          return name1;
-        }
-        public boolean getAccess1(){
-          return nextAccess1;
-        }
-      }
-
-      Name1Field nameGetter1 = new Name1Field();
-      name1Field.addActionListener(nameGetter1);
-
-      class Name2Field implements ActionListener{
-        String name2;
-        boolean nextAccess2;
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          name2 = name2Field.getText();
-          name2Field.setBackground(Color.GREEN);
-          nextAccess2 = true;
-          if (nameGetter1.getAccess1() && nextAccess2){
-          continueButton1.setEnabled(true);
-          }
-        }
-        public String getName2(){
-          return name2;
-        }
-      }
-
-      Name2Field nameGetter2 = new Name2Field();
-      name2Field.addActionListener(nameGetter2);
-
-      //MONEY PANEL
-
-      JPanel moneyPanel = new JPanel();
-      moneyPanel.setLayout(null);
-
-      JLabel moneyInfo = new JLabel("<html>Please enter the amount of money each player will be<br/>putting in and hit enter:</html>");
-      moneyInfo.setFont(new Font("Verdana", Font.PLAIN, 25));
-      moneyInfo.setBounds(50,15,400,100);
-      moneyPanel.add(moneyInfo);
-
-      JLabel money1Label = new JLabel("Money for 1:");
-      money1Label.setFont(new Font("Verdana", Font.PLAIN, 35));
-      money1Label.setBounds(25,105,400,100);
-      moneyPanel.add(money1Label);
-
-      JTextField money1Field = new JTextField(45);
-      money1Field.setBounds(250,125,150,60);
-      money1Field.setFont(new Font("Verdana", Font.PLAIN, 45));
-      moneyPanel.add(money1Field);
-
-      JLabel money2Label = new JLabel("Money for 2:");
-      money2Label.setFont(new Font("Verdana", Font.PLAIN, 35));
-      money2Label.setBounds(25,170,400,100);
-      moneyPanel.add(money2Label);
-
-      JTextField money2Field = new JTextField(45);
-      money2Field.setBounds(250,190,150,60);
-      money2Field.setFont(new Font("Verdana", Font.PLAIN, 45));
-      moneyPanel.add(money2Field);
-
-      JButton continueButton2 = new JButton("Continue");
-      continueButton2.setBounds(150,270,150,25);
-      continueButton2.setFocusable(false);
-      moneyPanel.add(continueButton2);
-      continueButton2.setEnabled (false);
-
-      continueButton2.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          cl.show(infoRetreival.getPanelCont(), "5");
-        }
-      });
-
-      class Money1Field implements ActionListener{
-        private double money1;
-        private boolean nextAccess3;
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          try{
-            money1 = Double.parseDouble(money1Field.getText());
-            money1Field.setBackground(Color.GREEN);
-            nextAccess3 = true;
-          }
-          catch(NumberFormatException ioe){
-            moneyInfo.setText("<html>Please erase and enter a<br/>valid money amount</html>");
-            money1Field.setBackground(Color.RED);
-            nextAccess3 = false;
-            continueButton2.setEnabled(false);
-          }
-        }
-        public double getMoney1(){
-          return money1;
-        }
-        public boolean getAccess3(){
-          return nextAccess3;
-        }
-      }
-
-      Money1Field moneyGetter1 = new Money1Field();
-      money1Field.addActionListener(moneyGetter1);
-
-      class Money2Field implements ActionListener{
-        private double money2;
-        private boolean nextAccess4;
-        @Override
-        public void actionPerformed(ActionEvent arg0){
-          try{
-            money2 = Double.parseDouble(money2Field.getText());
-            money2Field.setBackground(Color.GREEN);
-            nextAccess4 = true;
-          }
-          catch(NumberFormatException ioe){
-            moneyInfo.setText("<html>Please erase and enter a<br/>valid money amount and hit enter</html>");
-            money2Field.setBackground(Color.RED);
-            nextAccess4 = false;
-            continueButton2.setEnabled(false);
-          }
-          if (moneyGetter1.getAccess3() && nextAccess4){
-            continueButton2.setEnabled(true);
-          }
-        }
-        public double getMoney2(){
-          return money2;
-        }
-      }
-
-      Money2Field moneyGetter2 = new Money2Field();
-      money2Field.addActionListener(moneyGetter2);
-
-      //WINNER PANEL
-
-      JPanel winnerPanel = new JPanel();
-      winnerPanel.setLayout(null);
-
-      double moneyTotal = moneyGetter1.getMoney1() + moneyGetter2.getMoney2();
-
-      List<String> namesList = new ArrayList<String>();
-      namesList.add(nameGetter1.getName1());
-      namesList.add(nameGetter2.getName2());
-
-      String winner;
-
-      Results results = new Results();
-      String winnerResult = results.returnWinner();
-
-      if (winnerResult.equals("1")){
-        winner = namesList.get(0);
-      }
-      else if (winnerResult.equals("2")){
-        winner = namesList.get(1);
-      }
-      else{
-        winner = "It's a tie!";
-      }
-
-      JLabel winnerDisplay = new JLabel("The winner is: ");
-      winnerDisplay.setFont(new Font("Verdana", Font.PLAIN, 35));
-      winnerDisplay.setBounds(25,50,400,100);
-      winnerPanel.add(winnerDisplay);
-
-      JLabel totalMoneyDisplay= new JLabel("The money won is: ");
-      totalMoneyDisplay.setFont(new Font("Verdana", Font.PLAIN, 35));
-      totalMoneyDisplay.setBounds(25,100,400,100);
-      winnerPanel.add(totalMoneyDisplay);
-
-      //CONT PANEL ADJUSTMENTS
-
-      infoRetreival.getPanelCont().add(startingPanel, "1");
-      infoRetreival.getPanelCont().add(infoPanel, "2");
-      infoRetreival.getPanelCont().add(namesPanel, "3");
-      infoRetreival.getPanelCont().add(moneyPanel, "4");
-      infoRetreival.getPanelCont().add(winnerPanel, "5");
-      cl.show(infoRetreival.getPanelCont(), "1");
-
-      //FRAME TO HOLD ALL PANELS
-
+      //Setting attributes of main frame
       startFrame.add(infoRetreival.getPanelCont());
       startFrame.setSize(450, 350);
       startFrame.setLocation(100, 100);
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       startFrame.setVisible(true);
+
+      // STARTING PANEL
+
+      //Declaring starting panel
+      JPanel startingPanel = new JPanel();
+      startingPanel.setLayout(null); //setting layout to null to allow for movement of items
+
+      //Labels to display on starting label
+      JLabel gameTitle1 = new JLabel("Rock Paper Scissors"); //declaring label
+      gameTitle1.setFont(new Font("Verdana", Font.PLAIN, 35)); //setting font and font size of label
+      gameTitle1.setBounds(50, 70, 400, 50); //setting the location of label
+      startingPanel.add(gameTitle1); //adding label to panel
+
+      JLabel gameTitle2 = new JLabel("Gamble");
+      gameTitle2.setFont(new Font("Verdana", Font.PLAIN, 35));
+      gameTitle2.setBounds(155, 120, 400, 50);
+      startingPanel.add(gameTitle2);
+
+      JButton startGameButton = new JButton("Start Game"); //declaring button
+      startGameButton.setBounds(150, 200, 150, 25);
+      startGameButton.setFocusable(false); //removing focus on button
+      startingPanel.add(startGameButton);
+
+      //Action Listener to scan button action
+      startGameButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent arg0) { //checks for button click
+          cl.show(infoRetreival.getPanelCont(), "2"); //shows next panel on button click
+        }
+      });
+
+      // INSTRUCTIONS OUTPUT
+
+      //Prints instructions to console
+      System.out.println("---------------------------");
+      System.out.println("Instructions");
+      System.out.println("---------------------------");
+      System.out.println("How to Play:");
+      System.out.println("1. Login with player names.");
+      System.out.println("2. Enter amount of money for each player without the “$” sign.");
+      System.out.println("3. Click 'Start Game' for game results.");
+      System.out.println("4. Click replay if you would like to play again or click quit to close the program.");
+
+      // OUTPUT FOR USER INFO
+
+      //Creating variables and list for names and money of each player
+      String[] namesList = new String[2];
+      namesList[0] = "1";
+      namesList[1] = "2";
+      double money1 = 0;
+      double money2 = 0;
+      boolean again = false; //for restarting just in case of false answer
+      
+      System.out.println("---------------------------");
+      System.out.println("Login: ");
+      String name1;
+      String name2;
+      do { //loop for errors
+        System.out.println("---------------------------");
+        //asks user for both names and stores them in variables
+        System.out.println("Enter the first player name: ");
+        name1 = input.nextLine();
+        System.out.println("Enter the second player name: ");
+        name2 = input.nextLine(); 
+        if ("".equals(name1) || "".equals(name2)) { //checks to see if the user inputs nothing as a name 
+          System.out.println("");
+          System.out.println("Please enter a valid name. ");
+          again = true; //sets to true so it resets because of wrong input
+        } else {
+          again = false; //sets to false so it does not reset because user enetered correct input
+        }
+        //adding names to a list
+        namesList[0] = name1;
+        namesList[1] = name2;
+      } while (again); //while loop restes if again = true
+      do {
+        try { //try catch to catch inputs that are not ints
+          System.out.println("---------------------------");
+          System.out.println("Money:");
+          System.out.println("---------------------------");
+          //asks user for amount of money for each player and saves into variables
+          System.out.println("How much money for " + name1 + ": ");
+          money1 = Double.parseDouble(input.nextLine()); //parseInt to make sure the variable is an int not a string
+          System.out.println("How much money for " + name2 + ": ");
+          money2 = Double.parseDouble(input.nextLine());
+          again = false; //sets loop to flase because of correct input
+        } catch (NumberFormatException ioe) { //catches exception that is input that is not an int
+          System.out.println("");
+          System.out.println("Invalid input please try again and enter a number.");//informs user of invalid input
+          again = true;//sets loop to true because of invalid input
+        }
+      } while (again); //loops when true
+
+      // WINNER PANEL
+
+      JPanel winnerPanel = new JPanel(); //creating winner panel
+      winnerPanel.setLayout(null); //set layout to null to allow movement of attributes
+
+      double moneyTotal = money1 + money2; //gets money total from both players
+
+      //declaring result strings for final result of randomizer
+      String result1;
+      String result2;
+
+      int randnumb1 = (int) (Math.random() * 3 + 1); //getting first random number for player 1
+      int randnumb2 = (int) (Math.random() * 6 + 1) / 2; //getting second random number for player 2
+      
+      //checks to see what the random number will equal
+      if (randnumb1 == 1) { //if 1 then rock
+        result1 = "R";
+      } else if (randnumb1 == 2) {//if 2 then paper
+        result1 = "P";
+      } else { //if 3 the scissors
+        result1 = "S";
+      }
+
+      if (randnumb2 == 1) {
+        result2 = "R";
+      } else if (randnumb2 == 2) {
+        result2 = "P";
+      } else {
+        result2 = "S";
+      }
+
+      Results results = new Results(); //creating results class to call checker
+      results.setWinner(result1, result2); //setter method to compare reults
+      int winner = 0; 
+      winner = results.returnWinner(); //winner is equal to result of the result checker
+
+      String winnerName = ""; 
+
+      //checks to see who wins
+      if (winner == 1) {//if winner is 1 then player 1 wins
+        winnerName = namesList[0];//sets winner name to player 1 name
+      } else if (winner == 2) {//if winner is 2 then player 2 wins
+        winnerName = namesList[1]; //sets winner name to player 2 name
+      } else { //if winner is 3 it is a tie
+        winnerName = "It's a tie!";
+      }
+
+      //Labels to display on panel
+      JLabel winnerDisplay = new JLabel("The winner is: " + winnerName); //displays the winner
+      winnerDisplay.setFont(new Font("Verdana", Font.PLAIN, 25));
+      winnerDisplay.setBounds(25, 50, 400, 100);
+      winnerPanel.add(winnerDisplay);
+
+      JLabel totalMoneyDisplay = new JLabel("The money won is: " + "$" + moneyTotal); //displays the total money won
+      totalMoneyDisplay.setFont(new Font("Verdana", Font.PLAIN, 25));
+      totalMoneyDisplay.setBounds(25, 100, 400, 100);
+      winnerPanel.add(totalMoneyDisplay);
+
+      JButton quitButton = new JButton("Quit"); //quit button to exit program
+      quitButton.setFocusable(false);
+      quitButton.setBounds(250, 200, 150, 25);
+      winnerPanel.add(quitButton);
+
+      JButton playAgainButton = new JButton("Play Again"); //play again button to reset program
+      playAgainButton.setFocusable(false);
+      playAgainButton.setBounds(50, 200, 150, 25);
+      winnerPanel.add(playAgainButton);
+
+      quitButton.addActionListener(new ActionListener() { //action listener to see if quit button is clicked
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          System.exit(0); //closes program
+        }
+      });
+
+      playAgainButton.addActionListener(new ActionListener() { //action listener to see if play again button is clicked
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          new CLayout(); //starts a new program from the start
+        }
+      });
+
+      // CONT PANEL ADJUSTMENTS
+
+      infoRetreival.getPanelCont().add(startingPanel, "1"); //adds starting panel to main panel
+      infoRetreival.getPanelCont().add(winnerPanel, "2"); //adds winner panel to main panel
+      cl.show(infoRetreival.getPanelCont(), "1"); //shows first panel on game start
+
     }
   }
 
   public static void main(String[] args) {
-    new CLayout();   
+    new CLayout(); //calls entire program to start
   }
 }
