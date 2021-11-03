@@ -175,7 +175,7 @@ class Main {
   public static void main(String[] args) {
 
     new CLayout();
-
+    
     /*do{
       new MainMenu();
       put other classes here
